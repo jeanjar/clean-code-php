@@ -2032,7 +2032,7 @@ This is also available in other languages:
    * [yangweijie/clean-code-php](https://github.com/yangweijie/clean-code-php)
    * [php-cpm/clean-code-php](https://github.com/php-cpm/clean-code-php)
 
-  * ![pt_BR](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Português-BR:**
+ * ![pt_BR](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Português-BR:**
    * [jeanjar/clean-code-php](https://github.com/jeanjar/clean-code-php)
 
 **[⬆ back to top](#table-of-contents)**
