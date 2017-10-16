@@ -1,14 +1,16 @@
 # Clean Code PHP
 
-## Table of Contents
+## Sumário
 
-  1. [Introdução](#introduction)
-  2. [Variáveis](#variables)
+  1. [Introdução](#introdução)
+  2. [Variáveis](#variáveis)
      * [Use variáveis com significado e pronunciável](#use-meaningful-and-pronounceable-variable-names)
      * [Use o mesmo tipo de vocabulário para o mesmo tipo de variável](#use-the-same-vocabulary-for-the-same-type-of-variable)
      * [Use nomes pesquisáveis (part 1)](#use-searchable-names-part-1)
      * [Use nomes pesquisáveis (part 2)](#use-searchable-names-part-2)
      * [Use variáveis autoexplicativas](#use-explanatory-variables)
+     * [Evite aninhamentos profundos e retornos antecipados (parte 1)](#)
+     * [Evite aninhamentos profundos e retornos antecipados (parte 2)](#)
      * [Evitar mapas mentais](#avoid-mental-mapping)
      * [Não adicione contexto desnecessário](#dont-add-unneeded-context)
      * [Use default arguments instead of short circuiting or conditionals](#use-default-arguments-instead-of-short-circuiting-or-conditionals)
@@ -24,12 +26,12 @@
      * [Encapsular condicionais](#encapsulate-conditionals)
      * [Evite condicionais negativas](#avoid-negative-conditionals)
      * [Evite condicionais](#avoid-conditionals)
-     * [Evitar checagem de tipo (part 1)](#avoid-type-checking-part-1)
-     * [Evitar checagem de tipo (part 2)](#avoid-type-checking-part-2)
+     * [Evitar checagem de tipo (parte 1)](#avoid-type-checking-part-1)
+     * [Evitar checagem de tipo (parte 2)](#avoid-type-checking-part-2)
      * [Remova código morto](#remove-dead-code)
   4. [Objetos e estrutura de dados](#objects-and-data-structures)
      * [Use getters e setters](#use-getters-and-setters)
-     * [Faça objetos com membros private/protected](#make-objects-have-privateprotected-members)
+     * [Faça objetos com membros privados/protegidos](#make-objects-have-privateprotected-members)
   5. [Classes](#classes)
      * [Prefira composiço ao invés de herança](#prefer-composition-over-inheritance)
      * [Evite interfaçes fluente](#avoid-fluent-interfaces)
@@ -39,43 +41,43 @@
      * [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
      * [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
      * [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-  7. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  8. [Translations](#translations)
+  7. [Não se repita "Don’t repeat yourself" (DRY)](#dont-repeat-yourself-dry)
+  8. [Traduções](#translations)
 
-## Introduction
+## Introdução
 
 Software engineering principles, from Robert C. Martin's book
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
+adaptado para PHP. Isso não é um guia de estilos. É um guia para produzir softwares em PHP que sejam
+ legíveis, reusáveis e refatoráveis. 
 
 Not every principle herein has to be strictly followed, and even fewer will be universally 
 agreed upon. These are guidelines and nothing more, but they are ones codified over many 
 years of collective experience by the authors of *Clean Code*.
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
+Inspirado em [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
 
-## Variables
+## Variáveis
 
-### Use meaningful and pronounceable variable names
+### Use variáveis com significado e pronunciável
 
-**Bad:**
+**Ruim:**
 
 ```php
 $ymdstr = $moment->format('y-m-d');
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 $currentDate = $moment->format('y-m-d');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar para o topo](#sumário)**
 
-### Use the same vocabulary for the same type of variable
+### Use o mesmo tipo de vocabulário para o mesmo tipo de variável
 
-**Bad:**
+**Ruim:**
 
 ```php
 getUserInfo();
@@ -84,46 +86,46 @@ getUserRecord();
 getUserProfile();
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 getUser();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar para o topo](#sumário)**
 
-### Use searchable names (part 1)
+### Use nomes pesquisáveis (parte 1)
 
-We will read more code than we will ever write. It's important that the code we do write is 
-readable and searchable. By *not* naming variables that end up being meaningful for 
-understanding our program, we hurt our readers.
-Make your names searchable.
+Nós iremos ler mais códigos do que escrever. 
+E é importante que o código que escrevermos seja legível e pesquisável.
+Por *não* nomear variáveis que são importantes para o entendimento do programa, estaremos ferindo nossos leitores.
+Faça seus nomes pesquisáveis.
 
-**Bad:**
+**Ruim:**
 
 ```php
-// What the heck is 448 for?
+// Pra que diabos serve esse 448?
 $result = $serializer->serialize($data, 448);
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ```
 
-### Use searchable names (part 2)
+### Use nomes pesquisáveis (parte 2)
 
-**Bad:**
+**Ruim:**
 
 ```php
-// What the heck is 4 for?
+// Pra que diabos serve esse 4?
 if ($user->access & 4) {
     // ...
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class User
@@ -135,30 +137,30 @@ class User
 }
 
 if ($user->access & User::ACCESS_UPDATE) {
-    // do edit ...
+    // faça a edição ...
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Use explanatory variables
+### Use variáveis auto-explicativas
 
-**Bad:**
+**Ruim:**
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
+$address = 'Um Loop Infinito, Lorem Ipsum 95014';
 $cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
 saveCityZipCode($matches[1], $matches[2]);
 ```
 
-**Not bad:**
+**Não muito bom:**
 
-It's better, but we are still heavily dependent on regex.
+Esse é melhor, mas ainda tem forte dependência da regex.
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
+$address = 'Um Loop Infinito, Lorem Ipsum 95014';
 $cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
@@ -166,9 +168,9 @@ list(, $city, $zipCode) = $matches;
 saveCityZipCode($city, $zipCode);
 ```
 
-**Good:**
+**Bom:**
 
-Decrease dependence on regex by naming subpatterns.
+Diminui a dependência da regex nomeando sub-padrões.
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -178,17 +180,17 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches['city'], $matches['zipCode']);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Avoid nesting too deeply and return early
+### Evitar aninhamentos profundos e retornos antecipados (parte 1)
 
-Too many if else statemetns can make your code hard to follow. Explicit is better
-than implicit.
+Muitos condicionais if else podem deixar seu código dificil de seguir.
+Explicito é melhor que implicito.
 
-**Bad:**
+**Ruim:**
 
 ```php
-function isShopOpen($day)
+function isShopOpen($day): bool
 {
     if ($day) {
         if (is_string($day)) {
@@ -211,12 +213,12 @@ function isShopOpen($day)
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
-function isShopOpen($day)
+function isShopOpen(string $day): bool
 {
-    if (empty($day) && ! is_string($day)) {
+    if (empty($day)) {
         return false;
     }
 
@@ -224,14 +226,18 @@ function isShopOpen($day)
         'friday', 'saturday', 'sunday'
     ];
 
-    return in_array(strtolower($day), $openingDays);
+    return in_array(strtolower($day), $openingDays, true);
 }
 ```
 
-**Bad:**
+**[⬆ voltar ao topo](#sumário)**
+
+### Evitar aninhamentos profundos e retornos antecipados (parte 2)
+
+**Ruim:**
 
 ```php
-function fibonacci($n)
+function fibonacci(int $n)
 {
     if ($n < 50) {
         if ($n !== 0) {
@@ -249,35 +255,31 @@ function fibonacci($n)
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
-function fibonacci($n)
+function fibonacci(int $n): int
 {
-    if ($n === 0) {
-        return 0;
-    }
-
-    if ($n === 1) {
-        return 1;
+    if ($n === 0 || $n === 1) {
+        return $n;
     }
 
     if ($n > 50) {
-        return 'Not supported';
+        throw new \Exception('Not supported');
     }
 
     return fibonacci($n - 1) + fibonacci($n - 2);
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Avoid Mental Mapping
+### Evite mapas mentais
 
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
+Não force o leitor do seu código a traduzir o significado das variáveis.
+Explicito é melhor que implicito.
 
-**Bad:**
+**Ruim:**
 
 ```php
 $l = ['Austin', 'New York', 'San Francisco'];
@@ -294,7 +296,7 @@ for ($i = 0; $i < count($l); $i++) {
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 $locations = ['Austin', 'New York', 'San Francisco'];
@@ -309,14 +311,13 @@ foreach ($locations as $location) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Don't add unneeded context
+### Não adicionar contexto desnecessário
 
-If your class/object name tells you something, don't repeat that in your
-variable name.
+Se o nome da sua classe/objeto diz algo, não repita isso no nome das variáveis.
 
-**Bad:**
+**Ruim:**
 
 ```php
 class Car
@@ -329,7 +330,7 @@ class Car
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class Car
@@ -342,13 +343,13 @@ class Car
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
 ### Use default arguments instead of short circuiting or conditionals
 
-**Not good:**
+**Não é bom:**
 
-This is not good because `$breweryName` can be `NULL`.
+Isso não é bom porque `$breweryName` pode ser `NULL`.
 
 ```php
 function createMicrobrewery($breweryName = 'Hipster Brew Co.')
@@ -357,7 +358,7 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.')
 }
 ```
 
-**Not bad:**
+**Não é ruim:**
 
 This opinion is more understandable than the previous version, but it better controls the value of the variable.
 
