@@ -250,7 +250,7 @@ function fibonacci(int $n)
             return 0;
         }
     } else {
-        return 'Not supported';
+        return 'Não suportado';
     }
 }
 ```
@@ -265,7 +265,7 @@ function fibonacci(int $n): int
     }
 
     if ($n > 50) {
-        throw new \Exception('Not supported');
+        throw new \Exception('Não suportado');
     }
 
     return fibonacci($n - 1) + fibonacci($n - 2);
@@ -345,7 +345,7 @@ class Car
 
 **[⬆ voltar ao topo](#sumário)**
 
-### Use default arguments instead of short circuiting or conditionals
+### Use argumentos padrão em vez de operador ternario ou condicionais
 
 **Não é bom:**
 
@@ -360,7 +360,7 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.')
 
 **Não é ruim:**
 
-This opinion is more understandable than the previous version, but it better controls the value of the variable.
+Essa versão é mais compreensível que a anterior, porem é melhor controlar o valor da variável
 
 ```php
 function createMicrobrewery($name = null)
@@ -370,9 +370,9 @@ function createMicrobrewery($name = null)
 }
 ```
 
-**Good:**
+**Bom:**
 
-If you support only PHP 7+, then you can use [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) and be sure that the `$breweryName` will not be `NULL`.
+Se você tem suporte apenas ao PHP7+, então você pode usar [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) e ter certeza que `$breweryName` não será `NULL`.
 
 ```php
 function createMicrobrewery(string $breweryName = 'Hipster Brew Co.')
@@ -381,22 +381,22 @@ function createMicrobrewery(string $breweryName = 'Hipster Brew Co.')
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
-## Functions
+## Funções
 
-### Function arguments (2 or fewer ideally)
+### Argumentos de função (idealmente 2 ou menos)
 
-Limiting the amount of function parameters is incredibly important because it makes 
-testing your function easier. Having more than three leads to a combinatorial explosion 
-where you have to test tons of different cases with each separate argument.
+Limitar a quantidade de parametros de função é muito importante, porque isso
+torna o teste de função mais fácil. Ter mais de três leva a uma explosão combinatória
+onde você precisa testar toneladas de casos diferentes com cada argumento separado.
 
-Zero arguments is the ideal case. One or two arguments is ok, and three should be avoided. 
-Anything more than that should be consolidated. Usually, if you have more than two 
-arguments then your function is trying to do too much. In cases where it's not, most 
-of the time a higher-level object will suffice as an argument.
+Zero argumentos é o caso ideal. Um ou dois... ok, e 3 deve ser evitado.
+Qualquer coisa mais do que isso deve ser consolidada. Normalmente, se você tem mais de dois
+argumentos, então sua função está tentando fazer demais. Nos casos em que não é, na maioria
+dos casos, um objeto de nível superior será suficiente como argumento.
 
-**Bad:**
+**Ruim:**
 
 ```php
 function createMenu($title, $body, $buttonText, $cancellable)
@@ -405,7 +405,7 @@ function createMenu($title, $body, $buttonText, $cancellable)
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class MenuConfig
@@ -428,15 +428,15 @@ function createMenu(MenuConfig $config)
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
-### Functions should do one thing
+### Função devem fazer apenas uma coisa
 
-This is by far the most important rule in software engineering. When functions do more 
-than one thing, they are harder to compose, test, and reason about. When you can isolate 
-a function to just one action, they can be refactored easily and your code will read much 
-cleaner. If you take nothing else away from this guide other than this, you'll be ahead 
-of many developers.
+Isso é de longe a regra mais importante da engenharia de software.
+Quando funções fazem mais de uma coisa, elas são mais difíceis de compor, testar e pensar sobre.
+Quando você pode isolar uma função para apenas uma ação, você pode refatorar facilmente e seu
+código vai ficar muito mais limpo e fácil de ler.
+Se você aprender apenas isso desse guia, estará à frente de MUITOS desenvolvedores
 
 **Bad:**
 ```php
@@ -473,11 +473,11 @@ function isClientActive($client)
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
-### Function names should say what they do
+### Os nomes das funções devem dizer o que elas fazem
 
-**Bad:**
+**Ruim:**
 
 ```php
 class Email
@@ -491,11 +491,12 @@ class Email
 }
 
 $message = new Email(...);
-// What is this? A handle for the message? Are we writing to a file now?
+// O que !@&#( é isso??,
+// What is this? Um manipulador para a mensagem? Estamos escrevendo em arquivo agora?
 $message->handle();
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class Email 
@@ -509,11 +510,11 @@ class Email
 }
 
 $message = new Email(...);
-// Clear and obvious
+// Claro e óbvio
 $message->send();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
 ### Functions should only be one level of abstraction
 
