@@ -1,81 +1,83 @@
 # Clean Code PHP
 
-## Table of Contents
+## Sumário
 
-  1. [Introduction](#introduction)
-  2. [Variables](#variables)
-     * [Use meaningful and pronounceable variable names](#use-meaningful-and-pronounceable-variable-names)
-     * [Use the same vocabulary for the same type of variable](#use-the-same-vocabulary-for-the-same-type-of-variable)
-     * [Use searchable names (part 1)](#use-searchable-names-part-1)
-     * [Use searchable names (part 2)](#use-searchable-names-part-2)
-     * [Use explanatory variables](#use-explanatory-variables)
-     * [Avoid Mental Mapping](#avoid-mental-mapping)
-     * [Don't add unneeded context](#dont-add-unneeded-context)
+  1. [Introdução](#introdução)
+  2. [Variáveis](#variáveis)
+     * [Use variáveis com significado e pronunciável](#use-meaningful-and-pronounceable-variable-names)
+     * [Use o mesmo tipo de vocabulário para o mesmo tipo de variável](#use-the-same-vocabulary-for-the-same-type-of-variable)
+     * [Use nomes pesquisáveis (part 1)](#use-searchable-names-part-1)
+     * [Use nomes pesquisáveis (part 2)](#use-searchable-names-part-2)
+     * [Use variáveis autoexplicativas](#use-explanatory-variables)
+     * [Evite aninhamentos profundos e retornos antecipados (parte 1)](#)
+     * [Evite aninhamentos profundos e retornos antecipados (parte 2)](#)
+     * [Evitar mapas mentais](#avoid-mental-mapping)
+     * [Não adicione contexto desnecessário](#dont-add-unneeded-context)
      * [Use default arguments instead of short circuiting or conditionals](#use-default-arguments-instead-of-short-circuiting-or-conditionals)
-  3. [Functions](#functions)
-     * [Function arguments (2 or fewer ideally)](#function-arguments-2-or-fewer-ideally)
-     * [Functions should do one thing](#functions-should-do-one-thing)
-     * [Function names should say what they do](#function-names-should-say-what-they-do)
-     * [Functions should only be one level of abstraction](#functions-should-only-be-one-level-of-abstraction)
-     * [Don't use flags as function parameters](#dont-use-flags-as-function-parameters)
-     * [Avoid Side Effects](#avoid-side-effects)
-     * [Don't write to global functions](#dont-write-to-global-functions)
-     * [Don't use a Singleton pattern](#dont-use-a-singleton-pattern)
-     * [Encapsulate conditionals](#encapsulate-conditionals)
-     * [Avoid negative conditionals](#avoid-negative-conditionals)
-     * [Avoid conditionals](#avoid-conditionals)
-     * [Avoid type-checking (part 1)](#avoid-type-checking-part-1)
-     * [Avoid type-checking (part 2)](#avoid-type-checking-part-2)
-     * [Remove dead code](#remove-dead-code)
-  4. [Objects and Data Structures](#objects-and-data-structures)
-     * [Use getters and setters](#use-getters-and-setters)
-     * [Make objects have private/protected members](#make-objects-have-privateprotected-members)
+  3. [Funções](#functions)
+     * [Argumentos de função (ideal 2 ou menos)](#function-arguments-2-or-fewer-ideally)
+     * [Funções devem fazer ~apenas~ uma coisa](#functions-should-do-one-thing)
+     * [Nome de função deve dizer o que ela faz](#function-names-should-say-what-they-do)
+     * [Funções devem ser apenas um nível de abstração](#functions-should-only-be-one-level-of-abstraction)
+     * [Não use flags como parâmetro de função](#dont-use-flags-as-function-parameters)
+     * [Evite efeitos colaterais](#avoid-side-effects)
+     * [Não escreva funções globais](#dont-write-to-global-functions)
+     * [Não use o padrão Singleton](#dont-use-a-singleton-pattern)
+     * [Encapsular condicionais](#encapsulate-conditionals)
+     * [Evite condicionais negativas](#avoid-negative-conditionals)
+     * [Evite condicionais](#avoid-conditionals)
+     * [Evitar checagem de tipo (parte 1)](#avoid-type-checking-part-1)
+     * [Evitar checagem de tipo (parte 2)](#avoid-type-checking-part-2)
+     * [Remova código morto](#remove-dead-code)
+  4. [Objetos e estrutura de dados](#objects-and-data-structures)
+     * [Use getters e setters](#use-getters-and-setters)
+     * [Faça objetos com membros privados/protegidos](#make-objects-have-privateprotected-members)
   5. [Classes](#classes)
-     * [Prefer composition over inheritance](#prefer-composition-over-inheritance)
-     * [Avoid fluent interfaces](#avoid-fluent-interfaces)
+     * [Prefira composiço ao invés de herança](#prefer-composition-over-inheritance)
+     * [Evite interfaçes fluente](#avoid-fluent-interfaces)
   6. [SOLID](#solid)
      * [Single Responsibility Principle (SRP)](#single-responsibility-principle-srp)
      * [Open/Closed Principle (OCP)](#openclosed-principle-ocp)
      * [Liskov Substitution Principle (LSP)](#liskov-substitution-principle-lsp)
      * [Interface Segregation Principle (ISP)](#interface-segregation-principle-isp)
      * [Dependency Inversion Principle (DIP)](#dependency-inversion-principle-dip)
-  7. [Don’t repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  8. [Translations](#translations)
+  7. [Não se repita "Don’t repeat yourself" (DRY)](#dont-repeat-yourself-dry)
+  8. [Traduções](#translations)
 
-## Introduction
+## Introdução
 
 Software engineering principles, from Robert C. Martin's book
 [*Clean Code*](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882),
-adapted for PHP. This is not a style guide. It's a guide to producing
-readable, reusable, and refactorable software in PHP.
+adaptado para PHP. Isso não é um guia de estilos. É um guia para produzir softwares em PHP que sejam
+ legíveis, reusáveis e refatoráveis. 
 
 Not every principle herein has to be strictly followed, and even fewer will be universally 
 agreed upon. These are guidelines and nothing more, but they are ones codified over many 
 years of collective experience by the authors of *Clean Code*.
 
-Inspired from [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
+Inspirado em [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript)
 
-## Variables
+## Variáveis
 
-### Use meaningful and pronounceable variable names
+### Use variáveis com significado e pronunciável
 
-**Bad:**
+**Ruim:**
 
 ```php
 $ymdstr = $moment->format('y-m-d');
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 $currentDate = $moment->format('y-m-d');
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar para o topo](#sumário)**
 
-### Use the same vocabulary for the same type of variable
+### Use o mesmo tipo de vocabulário para o mesmo tipo de variável
 
-**Bad:**
+**Ruim:**
 
 ```php
 getUserInfo();
@@ -84,46 +86,46 @@ getUserRecord();
 getUserProfile();
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 getUser();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar para o topo](#sumário)**
 
-### Use searchable names (part 1)
+### Use nomes pesquisáveis (parte 1)
 
-We will read more code than we will ever write. It's important that the code we do write is 
-readable and searchable. By *not* naming variables that end up being meaningful for 
-understanding our program, we hurt our readers.
-Make your names searchable.
+Nós iremos ler mais códigos do que escrever. 
+E é importante que o código que escrevermos seja legível e pesquisável.
+Por *não* nomear variáveis que são importantes para o entendimento do programa, estaremos ferindo nossos leitores.
+Faça seus nomes pesquisáveis.
 
-**Bad:**
+**Ruim:**
 
 ```php
-// What the heck is 448 for?
+// Pra que diabos serve esse 448?
 $result = $serializer->serialize($data, 448);
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 $json = $serializer->serialize($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 ```
 
-### Use searchable names (part 2)
+### Use nomes pesquisáveis (parte 2)
 
-**Bad:**
+**Ruim:**
 
 ```php
-// What the heck is 4 for?
+// Pra que diabos serve esse 4?
 if ($user->access & 4) {
     // ...
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class User
@@ -135,30 +137,30 @@ class User
 }
 
 if ($user->access & User::ACCESS_UPDATE) {
-    // do edit ...
+    // faça a edição ...
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Use explanatory variables
+### Use variáveis auto-explicativas
 
-**Bad:**
+**Ruim:**
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
+$address = 'Um Loop Infinito, Lorem Ipsum 95014';
 $cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
 saveCityZipCode($matches[1], $matches[2]);
 ```
 
-**Not bad:**
+**Não muito bom:**
 
-It's better, but we are still heavily dependent on regex.
+Esse é melhor, mas ainda tem forte dependência da regex.
 
 ```php
-$address = 'One Infinite Loop, Cupertino 95014';
+$address = 'Um Loop Infinito, Lorem Ipsum 95014';
 $cityZipCodeRegex = '/^[^,\\]+[,\\\s]+(.+?)\s*(\d{5})?$/';
 preg_match($cityZipCodeRegex, $address, $matches);
 
@@ -166,9 +168,9 @@ list(, $city, $zipCode) = $matches;
 saveCityZipCode($city, $zipCode);
 ```
 
-**Good:**
+**Bom:**
 
-Decrease dependence on regex by naming subpatterns.
+Diminui a dependência da regex nomeando sub-padrões.
 
 ```php
 $address = 'One Infinite Loop, Cupertino 95014';
@@ -178,17 +180,17 @@ preg_match($cityZipCodeRegex, $address, $matches);
 saveCityZipCode($matches['city'], $matches['zipCode']);
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Avoid nesting too deeply and return early
+### Evitar aninhamentos profundos e retornos antecipados (parte 1)
 
-Too many if else statemetns can make your code hard to follow. Explicit is better
-than implicit.
+Muitos condicionais if else podem deixar seu código dificil de seguir.
+Explicito é melhor que implicito.
 
-**Bad:**
+**Ruim:**
 
 ```php
-function isShopOpen($day)
+function isShopOpen($day): bool
 {
     if ($day) {
         if (is_string($day)) {
@@ -211,12 +213,12 @@ function isShopOpen($day)
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
-function isShopOpen($day)
+function isShopOpen(string $day): bool
 {
-    if (empty($day) && ! is_string($day)) {
+    if (empty($day)) {
         return false;
     }
 
@@ -224,14 +226,18 @@ function isShopOpen($day)
         'friday', 'saturday', 'sunday'
     ];
 
-    return in_array(strtolower($day), $openingDays);
+    return in_array(strtolower($day), $openingDays, true);
 }
 ```
 
-**Bad:**
+**[⬆ voltar ao topo](#sumário)**
+
+### Evitar aninhamentos profundos e retornos antecipados (parte 2)
+
+**Ruim:**
 
 ```php
-function fibonacci($n)
+function fibonacci(int $n)
 {
     if ($n < 50) {
         if ($n !== 0) {
@@ -244,40 +250,36 @@ function fibonacci($n)
             return 0;
         }
     } else {
-        return 'Not supported';
+        return 'Não suportado';
     }
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
-function fibonacci($n)
+function fibonacci(int $n): int
 {
-    if ($n === 0) {
-        return 0;
-    }
-
-    if ($n === 1) {
-        return 1;
+    if ($n === 0 || $n === 1) {
+        return $n;
     }
 
     if ($n > 50) {
-        return 'Not supported';
+        throw new \Exception('Não suportado');
     }
 
     return fibonacci($n - 1) + fibonacci($n - 2);
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Avoid Mental Mapping
+### Evite mapas mentais
 
-Don’t force the reader of your code to translate what the variable means.
-Explicit is better than implicit.
+Não force o leitor do seu código a traduzir o significado das variáveis.
+Explicito é melhor que implicito.
 
-**Bad:**
+**Ruim:**
 
 ```php
 $l = ['Austin', 'New York', 'San Francisco'];
@@ -294,7 +296,7 @@ for ($i = 0; $i < count($l); $i++) {
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 $locations = ['Austin', 'New York', 'San Francisco'];
@@ -309,14 +311,13 @@ foreach ($locations as $location) {
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Don't add unneeded context
+### Não adicionar contexto desnecessário
 
-If your class/object name tells you something, don't repeat that in your
-variable name.
+Se o nome da sua classe/objeto diz algo, não repita isso no nome das variáveis.
 
-**Bad:**
+**Ruim:**
 
 ```php
 class Car
@@ -329,7 +330,7 @@ class Car
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class Car
@@ -342,13 +343,13 @@ class Car
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ voltar ao topo](#sumário)**
 
-### Use default arguments instead of short circuiting or conditionals
+### Use argumentos padrão em vez de operador ternario ou condicionais
 
-**Not good:**
+**Não é bom:**
 
-This is not good because `$breweryName` can be `NULL`.
+Isso não é bom porque `$breweryName` pode ser `NULL`.
 
 ```php
 function createMicrobrewery($breweryName = 'Hipster Brew Co.')
@@ -357,9 +358,9 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.')
 }
 ```
 
-**Not bad:**
+**Não é ruim:**
 
-This opinion is more understandable than the previous version, but it better controls the value of the variable.
+Essa versão é mais compreensível que a anterior, porem é melhor controlar o valor da variável
 
 ```php
 function createMicrobrewery($name = null)
@@ -369,9 +370,9 @@ function createMicrobrewery($name = null)
 }
 ```
 
-**Good:**
+**Bom:**
 
-If you support only PHP 7+, then you can use [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) and be sure that the `$breweryName` will not be `NULL`.
+Se você tem suporte apenas ao PHP7+, então você pode usar [type hinting](http://php.net/manual/en/functions.arguments.php#functions.arguments.type-declaration) e ter certeza que `$breweryName` não será `NULL`.
 
 ```php
 function createMicrobrewery(string $breweryName = 'Hipster Brew Co.')
@@ -380,22 +381,22 @@ function createMicrobrewery(string $breweryName = 'Hipster Brew Co.')
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
-## Functions
+## Funções
 
-### Function arguments (2 or fewer ideally)
+### Argumentos de função (idealmente 2 ou menos)
 
-Limiting the amount of function parameters is incredibly important because it makes 
-testing your function easier. Having more than three leads to a combinatorial explosion 
-where you have to test tons of different cases with each separate argument.
+Limitar a quantidade de parametros de função é muito importante, porque isso
+torna o teste de função mais fácil. Ter mais de três leva a uma explosão combinatória
+onde você precisa testar toneladas de casos diferentes com cada argumento separado.
 
-Zero arguments is the ideal case. One or two arguments is ok, and three should be avoided. 
-Anything more than that should be consolidated. Usually, if you have more than two 
-arguments then your function is trying to do too much. In cases where it's not, most 
-of the time a higher-level object will suffice as an argument.
+Zero argumentos é o caso ideal. Um ou dois... ok, e 3 deve ser evitado.
+Qualquer coisa mais do que isso deve ser consolidada. Normalmente, se você tem mais de dois
+argumentos, então sua função está tentando fazer demais. Nos casos em que não é, na maioria
+dos casos, um objeto de nível superior será suficiente como argumento.
 
-**Bad:**
+**Ruim:**
 
 ```php
 function createMenu($title, $body, $buttonText, $cancellable)
@@ -404,7 +405,7 @@ function createMenu($title, $body, $buttonText, $cancellable)
 }
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class MenuConfig
@@ -427,15 +428,15 @@ function createMenu(MenuConfig $config)
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
-### Functions should do one thing
+### Função devem fazer apenas uma coisa
 
-This is by far the most important rule in software engineering. When functions do more 
-than one thing, they are harder to compose, test, and reason about. When you can isolate 
-a function to just one action, they can be refactored easily and your code will read much 
-cleaner. If you take nothing else away from this guide other than this, you'll be ahead 
-of many developers.
+Isso é de longe a regra mais importante da engenharia de software.
+Quando funções fazem mais de uma coisa, elas são mais difíceis de compor, testar e pensar sobre.
+Quando você pode isolar uma função para apenas uma ação, você pode refatorar facilmente e seu
+código vai ficar muito mais limpo e fácil de ler.
+Se você aprender apenas isso desse guia, estará à frente de MUITOS desenvolvedores
 
 **Bad:**
 ```php
@@ -472,11 +473,11 @@ function isClientActive($client)
 }
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
-### Function names should say what they do
+### Os nomes das funções devem dizer o que elas fazem
 
-**Bad:**
+**Ruim:**
 
 ```php
 class Email
@@ -490,11 +491,12 @@ class Email
 }
 
 $message = new Email(...);
-// What is this? A handle for the message? Are we writing to a file now?
+// O que !@&#( é isso??,
+// What is this? Um manipulador para a mensagem? Estamos escrevendo em arquivo agora?
 $message->handle();
 ```
 
-**Good:**
+**Bom:**
 
 ```php
 class Email 
@@ -508,11 +510,11 @@ class Email
 }
 
 $message = new Email(...);
-// Clear and obvious
+// Claro e óbvio
 $message->send();
 ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#sumário)**
 
 ### Functions should only be one level of abstraction
 
@@ -2031,5 +2033,8 @@ This is also available in other languages:
  * ![cn](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/China.png) **Chinese:**
    * [yangweijie/clean-code-php](https://github.com/yangweijie/clean-code-php)
    * [php-cpm/clean-code-php](https://github.com/php-cpm/clean-code-php)
+
+ * ![pt_BR](https://raw.githubusercontent.com/gosquared/flags/master/flags/flags/shiny/24/Brazil.png) **Português-BR:**
+   * [jeanjar/clean-code-php](https://github.com/jeanjar/clean-code-php)
 
 **[⬆ back to top](#table-of-contents)**
